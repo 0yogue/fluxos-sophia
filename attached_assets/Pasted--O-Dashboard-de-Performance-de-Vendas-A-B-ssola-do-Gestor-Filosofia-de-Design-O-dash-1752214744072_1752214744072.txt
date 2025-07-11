@@ -1,0 +1,99 @@
+### **O Dashboard de Performance de Vendas: "A Bússola do Gestor"**
+
+**Filosofia de Design:** O dashboard será dividido em três camadas, como um funil de análise:
+1.  **Visão Macroeconômica (O Quê?):** "Como está a saúde geral da minha operação de vendas?"
+2.  **Análise Comparativa (Quem?):** "Quem são meus melhores vendedores e quem precisa de ajuda?"
+3.  **Análise Qualitativa (Por Quê?):** "Por que um vendedor está performando bem ou mal? O que posso aprender com conversas específicas?"
+
+---
+
+### **Camada 1: Visão Geral da Performance da Equipe (O "Cockpit")**
+
+Este é o primeiro painel que o gestor abre. Ele precisa dar um panorama da operação em 30 segundos.
+
+**Filtros Globais:** No topo de todas as páginas: `Período de Tempo` (Hoje, Últimos 7 dias, Últimos 30 dias, Período Customizado).
+
+**Componentes Visuais:**
+
+1.  **KPIs Principais (Cards de Destaque):**
+    *   **Total de Vendas (R$):** Valor monetário total. (Ex: R$ 45.200,00) `↑ 15% vs período anterior`.
+    *   **Nº de Vendas:** Quantidade de negócios fechados. (Ex: 112) `↑ 10%`.
+    *   **Taxa de Conversão Global:** (Total de Vendas / Total de Conversas). (Ex: 8.5%) `↓ 2%`. A métrica mais importante da saúde da operação.
+    *   **Total de Conversas Iniciadas:** Volume de trabalho da equipe. (Ex: 1.317).
+    *   **FOCO Médio da Equipe:** Tempo médio de resposta da equipe em minutos/segundos. (Ex: 2m 15s) `(Bom: verde, Ruim: vermelho)`.
+    *   **Score Médio de Script:** Nota média de todas as conversas avaliadas pelo LLM. (Ex: 78%).
+
+2.  **Funil de Vendas (Gráfico de Funil):**
+    *   Uma visualização clara das etapas:
+        *   `Conversas Iniciadas` (Ex: 1317)
+        *   `Leads Qualificados` (Conversas onde o cliente enviou receita ou confirmou interesse em um orçamento - extraído via LLM) (Ex: 450)
+        *   `Negócios Fechados (Vendas)` (Ex: 112)
+    *   **Insight para o Gestor:** Identifica rapidamente onde está o gargalo. "Estamos falando com muita gente mas qualificando poucos, ou qualificamos bem mas falhamos no fechamento?".
+
+3.  **Correlação: Qualidade vs. Resultado (Gráfico de Dispersão / Scatter Plot):**
+    *   **Eixo X:** Score de Conformidade com o Script (0 a 100%).
+    *   **Eixo Y:** Taxa de Conversão (%).
+    *   Cada ponto no gráfico é um vendedor.
+    *   **Insight para o Gestor:** Este é o gráfico que **prova se o script de vendas funciona**. Se os vendedores com scores mais altos também têm taxas de conversão maiores, a estratégia está validada. Se não houver correlação, o script precisa ser revisto.
+
+---
+
+### **Camada 2: Análise por Vendedor (O "Leaderboard")**
+
+Aqui o gestor pode comparar a performance individual e identificar destaques.
+
+**Componente Principal: Tabela de Performance Comparativa**
+
+*   **Linhas:** Nomes dos Vendedores.
+*   **Colunas:**
+    1.  **Vendedor:** Nome e foto.
+    2.  **Nº de Conversas:** Volume de trabalho.
+    3.  **Nº de Vendas:** Resultado final.
+    4.  **Taxa de Conversão (%):** **(Coluna mais importante)** A eficiência do vendedor. Use formatação condicional (ex: gradiente de verde para vermelho).
+    5.  **FOCO (Tempo Médio de Resposta):** A agilidade do vendedor. (Ex: "1m 30s"). Também com formatação condicional (menor é melhor).
+    6.  **Score Médio do Script (%):** A qualidade e aderência ao processo. (Ex: "92%").
+    7.  **Duração Média da Conversa:** Ajuda a entender se o vendedor é prolixo ou direto ao ponto.
+    8.  **Valor Total Vendido (R$):** O impacto financeiro direto.
+
+**Insight para o Gestor:**
+*   "Meu vendedor com a maior taxa de conversão também é o que tem o maior score de script?"
+*   "O vendedor mais rápido (menor FOCO) vende mais?"
+*   "Quem tem um volume alto de conversas mas uma conversão baixa? (precisa de treinamento em fechamento)".
+*   "Quem tem um score de script baixo mas uma conversão alta? (talvez ele tenha uma tática nova que podemos aprender)".
+
+---
+
+### **Camada 3: Análise Qualitativa e Coaching (O "Game Tape Review")**
+
+Esta é a camada mais profunda, onde o gestor investiga o "porquê" dos números. É a ferramenta de coaching.
+
+**Filtros Avançados:** Além do filtro global de data, adicione: `Vendedor`, `Score do Script (ex: > 90% ou < 50%)`, `Possui Venda (Sim/Não)`, `FOCO (ex: > 5min)`.
+
+**Componentes:**
+
+1.  **Lista de Conversas:**
+    *   Uma tabela com todas as conversas que batem com os filtros, mostrando ID da conversa, data, vendedor, score do script, FOCO e se resultou em venda. Clicar em uma linha abre o "Explorer da Conversa".
+
+2.  **O Explorer da Conversa (Visualização Detalhada ao Clicar):**
+    *   **À Esquerda: Transcrição Completa da Conversa.**
+        *   Toda a interação de texto e a transcrição do áudio, exibida de forma clara como em um chat.
+    *   **À Direita: Análise do LLM.**
+        *   **Card de Resumo:**
+            *   **Score Final do Script:** 87/100
+            *   **Sentimento do Cliente:** Positivo 😊
+            *   **FOCO Médio da Conversa:** 2m 05s
+        *   **Checklist de Etapas do Script (Análise Estruturada do LLM):**
+            *   `[✔] Saudação Empática:` Sim, usou emojis e o nome do cliente.
+            *   `[✔] Pitch da Vídeo Chamada:` Sim, ofereceu e mencionou o frete grátis.
+            *   `[✖] Contorno da Objeção de Preço:` Não usou o argumento de qualidade, foi direto para o desconto.
+            *   `[✔] Oferta de Alternativas:` Sim, sugeriu lentes mais em conta.
+            *   `[✖] Uso de Prova Social:` Não mencionou os depoimentos quando o cliente mostrou desconfiança.
+        *   **Pontos Fortes (Gerado pelo LLM):**
+            *   "O vendedor criou um ótimo rapport inicial."
+            *   "Foi rápido e preciso ao responder sobre a disponibilidade do produto."
+        *   **Oportunidades de Melhoria (Gerado pelo LLM):**
+            *   "Poderia ter justificado melhor o valor do multifocal antes de apresentar opções mais baratas."
+            *   "Demorou 4 minutos para responder a primeira pergunta do cliente, o que pode indicar falta de atenção inicial."
+
+**Insight para o Gestor:**
+Com essa visão, a sessão de coaching se transforma. Em vez de dizer "você precisa vender mais", o gestor pode dizer: "João, notei que em 3 conversas que não converteram esta semana, você não usou o argumento do 'Óculos Sob Medida' quando o cliente disse que tinha medo de comprar online. Vamos treinar esse ponto? A Maria, que tem a maior taxa de conversão, usa esse argumento em 90% dos casos. Vamos ver uma conversa dela como exemplo."
